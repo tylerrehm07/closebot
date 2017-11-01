@@ -11,6 +11,17 @@
 |
 */
 
+Auth::routes();
+
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => ['auth']], function () {
+  Route::resource('properties', 'PropertyController');
+  Route::post('properties/{id}/complete', 'PropertyController@complete');
+
+  Route::resource('events', 'EventController');
 });
